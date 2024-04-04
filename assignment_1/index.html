@@ -1,0 +1,438 @@
+
+<!-- saved from url=(0061)file:///Users/jingeyao/Desktop/Assignment_1/Assignment_1.html -->
+<html>
+<head>
+	<title>Home</title>
+	<style>
+		body {
+        color: #333;
+        margin: 0;
+        padding: 0px;
+    	}
+
+		#menu{
+			position: fixed;
+			z-index: 1000;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: white;
+			height:45px;
+			width: auto;
+			min-width: 1000px;
+			display: flex;
+			justify-content: space-between;
+			padding-left: 100px;
+			padding-right: 40px;
+			padding-bottom: 10px;
+			padding-top: 15px;
+		}
+
+		#main-events{
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			font-size: 12px;
+			font-weight: 80px;
+			color: #a9955c;
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: 100;
+		}
+
+		#menu-bar{
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			list-style-type: none;
+			margin-left: auto;
+		}
+
+		.menu-text{
+			display: flex;
+        	margin: 0 20px; 
+        	font-size: 12px;
+		}
+
+		.menu-text a {
+        	text-decoration: none;
+        	color: #000;
+            font-weight: normal;
+            transition: color 0.3s;
+        	font-family: Arial, Helvetica, sans-serif;
+    	}
+
+    	.menu-text a:hover{
+    		color: #a9955c;
+    	}
+
+		#header-image {
+		    background-image: url("images/image3.png");
+		    background-attachment: fixed;
+		    background-repeat: no-repeat;
+		    background-size: 1250px 115%; 
+			width: 1250px;
+		    height: 700px;
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    justify-content: center;
+		    margin-bottom: 55px;
+		}
+
+		.header-text {
+			color: white;
+			font-size: 35px;
+			letter-spacing: 14px;
+			line-height: 2;
+			text-align: center;
+			font-family: Hoefler Text;
+		}
+
+		#service-section {
+			min-width: 1000px;
+			background: white;
+		    display: flex;
+		    height: 580px; 
+		    padding-bottom: 50px;
+		}
+
+		#image {
+		    background-image: url('images/image1.png');
+			background-size: 650px 100%;
+		    background-position: center;
+		    background-repeat: no-repeat;
+		    flex: 2; 
+		    width: 650px;
+		    height: auto;
+		    padding-right: 60px;
+		    padding-left: 30px;
+		}
+
+		.banner1 {
+		    background-image: url('images/flower.png');
+		    background-position: center;
+		    background-repeat: no-repeat;
+		    flex: 1; 
+			width: 300px;
+			min-widith: 250px;
+		    color: #FFF; 
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center; 
+		    align-items: center;
+		    margin-right: 30px;
+		    margin-left: 60px;
+		    padding: 30px;
+		}
+
+		.banner1 h1 {
+		    color: #FFF; 
+		    font-size: 32px; 
+		    margin-bottom: 0.5em; 
+		    padding-bottom: 60px;
+		   	font-family: Arial, Helvetica, sans-serif;
+		   	font-weight: 200;
+		}
+
+		.banner1 p {
+		    color: #FFF;
+		    max-width: 270px; 
+    		line-height: 1.6;
+    		font-size: 20px;
+    		text-align: center;
+    		letter-spacing: 5px;
+    		padding-bottom: 60px
+		}
+
+		.banner1 button {
+		    background: transparent;
+		    border: 1px solid #FFF; 
+		    width: 260px;
+		    color: #FFF;
+		    padding: 0.8em 1em;
+		    font-size: 14px;
+		    display: flex;
+    		align-items: center;
+    		justify-content: center;
+		}
+		
+		#testimonial-section {
+			min-width: 1150px;
+		    display: flex;
+		    margin-top: 100px;
+		    justify-content: center;
+		    align-items: center;
+		    text-align: center;
+		    padding: 40px;
+		    position: relative;
+		}
+
+		#testimonial-content {
+		    max-width: 600px;
+		}
+
+        .testimonial-quote {
+		    font-size: 90px;
+		    line-height: 0.1em;
+		    vertical-align: middle;
+			margin-left: 25px;
+			font-family: Lucida Console, serif;
+		}
+
+        .testimonial-text {
+        	padding-top: 40px;
+		    font-size: 25px; 
+		    margin: 0.5em 0;
+			width: 400px;
+			letter-spacing: 2px;
+			height: 80px;
+			line-height:160% ;
+			font-family: Hoefler Text;
+		}
+
+        .testimonial-name {
+		    font-size: 13px; 
+		    padding-top: 70px;
+		    color: #a9955c;
+		    font-family: Arial, Helvetica, sans-serif;
+		}
+
+        .testimonial-navigation {
+		    font-size: 40px; 
+		    font-weight: normal;
+		    position: absolute;
+		    top: 50%;
+		    transform: translateY(-50%);
+		}
+
+		.testimonial-navigation.left {
+		    left: 20px;
+		    padding-left: 60px;
+		    color: #a9955c;
+		}
+
+		.testimonial-navigation.right {
+		    right: 20px;
+		    padding-right: 60px;
+		    color: #a9955c;
+		}
+
+		#service-section {
+			background: white;
+		    display: flex;
+		    height: 580px; 
+		    padding-bottom: 50px;
+		}
+
+		#container {
+			background-image: url('images/image2.png');
+			background-repeat: no-repeat;
+		    position: relative;
+		    background-attachment: fixed;
+		    width: 1100px; 
+		    height: 560px; 
+		    margin-top: 40px;
+		    margin-left: 70px;
+		    margin-right: 70px;
+		    background-size: 1250px 115%;
+		    background-position: top;
+		}
+
+		.banner2 {
+			background-image: url('images/flower.png'); 
+			background-repeat: no-repeat;
+		    color: #FFF;
+		    position: absolute;
+		    transform: translateY(13%);
+		    top: 0;
+  			right: 30;
+		    width: 300px; 
+		    height: 80%; 
+		    background-position: center;
+		    background-attachment: scroll;
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    align-items: center;  
+		}
+
+		.banner2 h1 {
+		    color: #FFF; 
+		    font-size: 26px; 
+		    margin-bottom: 0.5em; 
+		    padding-bottom: 60px;
+		    font-family: Arial, Helvetica, sans-serif;
+		    font-weight: 200;
+		}
+
+		.banner2 p {
+		    color: #FFF;
+		    font-size: 14px;
+		    max-width: 180px; 
+    		line-height: 1.6;
+    		font-size: 18px;
+    		text-align: center;
+    		padding-bottom: 40px;
+    		letter-spacing: 6px;
+		}
+
+		.banner2 button {
+		    background: transparent;
+		    border: 1px solid #FFF; 
+		    width: 200px;
+		    color: #FFF;
+		    padding: 0.8em 1em;
+		    font-size: 14px;
+		    display: flex;
+    		align-items: center;
+    		justify-content: center;
+		}
+
+		.footer{
+			background-color: #a9955c;
+			position: relative;
+			display: flex;
+			flex-wrap: nowrap;
+			flex-direction: row;
+			width: 90%; 
+			height: 150px;
+			margin-left: 70px;
+			margin-left: 70px;
+			margin-top: 100px;
+		}
+
+		.address{
+			padding-left: 50px;
+		}
+
+		.address,
+		.contact,
+		.copyright{
+			margin: 40px 0 auto;
+			text-align: center;
+		}					
+
+	    .address p,
+		.contact p,
+		.copyright p{
+			border-right:1px white solid ;
+			color: white;
+			width: 120px;
+			height: 50px;
+			text-align: left;
+			margin: 10px;
+			position: relative;
+			font-size: 11px;
+			line-height: 17px;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		.footer button{
+			background: transparent;
+		    border: 1px solid #FFF; 
+		    font-size: 12px;
+		    width: 200px;
+			height: 45px;
+		    color: #FFF; 
+    	    vertical-align: middle;
+    		justify-content: center;
+		    margin-top: 50px;
+		    margin-left: 330px;
+		    margin-right: 60px;
+		    font-family: Arial, Helvetica, sans-serif;
+		}
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <div id="main-events">
+           <strong>MAIN EVENTS</strong> 
+        </div>
+        <div id="menu-bar">
+			<div class="menu-text"> <a href="./page2.html#home"> Home </a></div>
+			<div class="menu-text"> <a href="./page2.html#services"> Services </a></div>
+			<div class="menu-text"> <a href="./page2.html#about"> About </a></div>
+			<div class="menu-text"> <a href="./page2.html#gallery">Gallery</a></div>
+			<div class="menu-text"> <a href="./page2.html#contact"> Contact </a></div>
+		</div>
+	</div>
+
+	<div id="header">
+		<!-- <div id="header-image"><img src="images/image3.png" alt="header"> </div> -->
+		 <div id="header-image">
+		 	<div class="header-text">Creating</div>
+		 	<div class="header-text">Unforgettable</div>
+        	<div class="header-text">Memories</div>
+		 </div>
+	</div>
+
+	<div id="service-section">
+        <div class="banner1">
+            <h1>S&nbsp;
+				E&nbsp;
+				R&nbsp;
+				V&nbsp;
+				I&nbsp;
+				C&nbsp;
+				E&nbsp;
+				S</h1>
+            <p>Turn the dream into a reality</p>
+            <button>DISCOVER</button>
+        </div>
+        <div id="image"></div>
+    </div>
+	
+	<div id="testimonial-section">
+	    <span class="testimonial-navigation left">&larr;</span>
+	    <div id="testimonial-content">
+	        <span class="testimonial-quote">”</span>
+	        <p class="testimonial-text">I'm a testimonial. Click to edit this text and say something nice about you and your services.</p>
+	        <p class="testimonial-name">Jimmy and Janice</p>
+	    </div>
+	    <span class="testimonial-navigation right">&rarr;</span>
+	</div>
+
+	<div id="container">
+	    <div class="banner2">
+	    	<h1>G&nbsp;
+				A&nbsp;
+				L&nbsp;
+				L&nbsp;
+				E&nbsp;
+				R&nbsp;
+				Y</h1>
+            <p>Unforgettable Memories</p>
+            <button>DISCOVER</button>
+		</div>
+	</div>
+    
+	<div class="footer">
+        <div class="address">
+            <p>500 Temple Street 
+			 <br/> San Francisco 
+			 <br/> CA 94155
+		    </p>
+		</div>
+
+		<div class="contact">
+			<p>    Tel:123-555-1212 
+			 <br/> Fax:123-555-1212  
+			 <br/> info@mainevents.com
+			</p>
+		</div>
+
+		<div class="copyright">
+			<p style="border-right:none ;">© 2023 by Main Events.</p>
+		</div>
+            <button>BOOK A CONSULTATION</button>     
+    </div>
+	<br/>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+<!-- Header -->
+<div class="container-fluid container">
+  <div class="custom-margin">
+    <h1>My Watchlist</h1>
+  </div>
+</div>
+
+<!-- No Stock Alert -->
+<div class="container-fluid custom-container" *ngIf="(watchlist[0] | json) == '[]'">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-7">
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Currently you don't have any stock.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stock Card -->
+<div class="card-container py-3" *ngIf="(watchlist[0] | json) != '{}' && watchlist[0]?.length != 0 ">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-7 mx-auto">
+      <div *ngFor="let list of watchlist">
+        <a [routerLink]="['/search', list.ticker]" class="no-underline">
+          <div class="card mb-3">
+            <div class="card-body">
+              <button type="button" class="btn-close position-absolute top-0 end-0 me-3 mt-3" aria-label="Close" 
+              style="width: 1rem; height: 1rem;" (click)="onButtonClick($event, list._id);"></button>
+              <div class="row g-0">
+                <div class="col-9">
+                  <h3>{{ list.ticker }}</h3>
+                  <h4>{{ list.name }}</h4>
+                </div>
+                <div class="col-3"
+                  [ngClass]="{
+                    'text-success': list.price > 0,
+                    'text-dark': list.price == 0,
+                    'text-danger': list.price < 0
+                  }">
+                  <h3>{{ list.vw }}</h3>
+                  <p style="line-height: 24px;">
+                    <span *ngIf="list.price > 0" class="material-icons md-dark" style="vertical-align: middle;">arrow_drop_up</span>
+                    <span *ngIf="list.price < 0" class="material-icons md-dark" style="vertical-align: middle;">arrow_drop_down</span>
+                    <span style="vertical-align: middle;">{{ list.price }} ({{ list.percent }}%)</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

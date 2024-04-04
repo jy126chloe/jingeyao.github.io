@@ -1,0 +1,385 @@
+<!-- Success Alert -->
+<div class="container-fluid custom-container" *ngIf="buyResult === true">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-7">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ticker}} {{buySuccess}} Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Added to Watchlist Alert -->
+<div class="container-fluid custom-container" *ngIf="showWatchlistAlert">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-7">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ hostList['ticker'] }} added to watchlist!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- No Data Found Alert -->
+<div class="container-fluid custom-container" *ngIf="hostList['f'] == true">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-7">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        No data found. Please enter a valid Ticker
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stock info -->
+<div class="album py-4" *ngIf="hostList['ticker']">
+  <div class="container">
+    <div class="row g-3">
+      <!-- Ticker, add to watchlist, and buy -->
+      <div class="col-4">
+        <div class="d-flex justify-content-center align-items-center" style="text-align: center;">
+          <a target="_blank" href="{{hostList['weburl']}}" class="link-no-underline">
+            <h2 class="mb-0">{{hostList['ticker']}}</h2>
+          </a>          
+          <a href="javascript:void(0);" *ngIf="isWatchlist == 0" (click)="saveWatchList()">
+            <span class="material-icons-outlined icon-star-not-added">
+              grade
+            </span>
+          </a>
+          <span *ngIf="isWatchlist > 0" class="material-icons icon-star-added">
+            grade
+          </span>          
+        </div>
+        <div style="text-align: center;">
+          <h3>{{hostList['name']}}</h3>
+        </div>
+        <div style="text-align: center;">
+          <h5>{{hostList['exchange']}}</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center flex-nowrap" style="text-align: center;">
+          <span *ngIf="ticker && walletmoney > -1">
+            <button type="button" (click)="buyModal()" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy</button>
+          </span>
+          <span *ngIf="boughtTotal > 0 && walletmoney > -1">
+            &nbsp;&nbsp;&nbsp;<button type="button" (click)="buyModal()" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+              data-bs-target="#sellModal">Sell</button>
+          </span>
+        </div>
+      </div>
+      <!-- Stock image and market status -->
+      <div class="col-4">
+        <!-- Stock Image Container -->
+        <div class="card border-0 align-items-center">
+          <img class="img-fluid img-lg-custom" src="{{hostList['logo']}}" alt="Company Logo">
+        </div>  
+        <br /> 
+        <br /> 
+        <br />     
+        <!-- Market Status Text Container -->
+        <div class="market-status-container text-center mt-3">
+          <span *ngIf="marketstatus == 'open'">
+            <div class="text-success text-size-small"><strong>Market is Open</strong></div>
+          </span>
+          <span *ngIf="marketstatus != 'open'">
+            <div class="text-danger" style="font-size: 12px;"><strong>Market Closed On {{marketServerTime | date:'yyyy-MM-dd HH:mm'}}</strong></div>
+          </span>
+        </div>        
+      </div>
+      <!-- Stock change -->
+      <div class="col-4">
+        <!-- If the price change is positive or zero -->
+        <span *ngIf="polygonAggsPriceC >= 0">
+          <div style="text-align: center; color: green;">
+            <h3 class="mb-0">{{polygonAggsVw}}</h3>
+            <div class="d-flex flex-nowrap justify-content-center align-items-center">
+              <span class="material-icons md-dark">arrow_drop_up</span>
+              <h5 class="mb-0">{{polygonAggsPriceC}} ({{polygonAggsPercent}}%)</h5>
+            </div>
+          </div>
+        </span>
+        <!-- If the price change is negative -->
+        <span *ngIf="polygonAggsPriceC < 0">
+          <div style="text-align: center; color: red;">
+            <h3 class="mb-0">{{polygonAggsVw}}</h3>
+            <div class="d-flex flex-nowrap justify-content-center align-items-center">
+              <span class="material-icons md-dark">arrow_drop_down</span>
+              <h5 class="mb-0">{{polygonAggsPriceC}} ({{polygonAggsPercent}}%)</h5>
+            </div>
+          </div>
+          <div style="text-align: center; font-size: 12px;">{{polygonAggsTime | date:'yyyy-MM-dd HH:mm'}}</div>
+        </span>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<!-- Stock Detail Navigation Bar -->
+<div class="col-12 col-md-8 col-lg-8 mx-auto" *ngIf="hostList['ticker']">
+  <ul class="nav nav-tabs nav-fill">
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="tabs=='Summary' ? 'active' : ''" (click)="tabsChanges('Summary')"
+        href="javascript:void(0);">Summary</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="tabs=='Top News' ? 'active' : ''" (click)="tabsChanges('Top News')"
+        href="javascript:void(0);">Top News</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="tabs=='Charts' ? 'active' : ''" (click)="tabsChanges('Charts')"
+        href="javascript:void(0);">Charts</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="tabs=='Insights' ? 'active' : ''" (click)="tabsChanges('Insights')"
+        href="javascript:void(0);">Insights</a>
+    </li>
+  </ul>
+</div>
+
+<!-- Stock Summary Tab -->
+<div class="detail-container" *ngIf="hostList['ticker'] && tabs=='Summary'">
+  <div class="row no-gutters">
+    <div class="col-12 col-md-6">
+      <!-- Stock Information -->
+      <div class="row">
+        <div class="col-12">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item no-border text-center small py-1"><b>High Price:</b> {{ priceH }}</li>
+            <li class="list-group-item no-border text-center small py-1"><b>Low Price:</b> {{ pricel }}</li>
+            <li class="list-group-item no-border text-center small py-1"><b>Open Price:</b> {{ priceo }}</li>
+            <li class="list-group-item no-border text-center small py-1"><b>Prev. Close:</b> {{ pricep }}</li>
+          </ul>
+          <br />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 d-none d-md-block"></div>
+        <!-- Company Information -->
+        <div class="col-12 col-md-6 px-md-0">
+          <div class="text-center text-md-right mb-2">
+            <h3 class="mb-2"><u><b>About The Company</b></u></h3>
+            <h5 class="mt-1 mb-1"><b>IPO Start Date:</b> {{ hostList['ipo'] }}</h5>
+            <h5 class="mt-1 mb-1"><b>Industry:</b> {{ hostList['finnhubIndustry'] }}</h5>
+            <h5 class="mt-1 mb-1"><b>Webpage: </b> <a href="{{ hostList['weburl'] }}">{{ hostList['weburl'] }}</a></h5>
+            <h5 class="mt-1 mb-1"><b>Company Peers:</b></h5>
+            <h5 class="mt-1">
+              <span *ngFor="let peer of peers">
+                <a href="javascript:void(0);" (click)="searchClick(peer)">{{ peer }}</a>,
+              </span>
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Hourly Price Variation Chart -->
+    <div class="col-12 col-md-6">
+      <div *ngIf="(coption | json) != '{}'" class="chart-container p-3">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="coption"
+          [constructorType]="chartConstructor"
+          style="width: 100%; height: auto;">
+        </highcharts-chart>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Buy Stock Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header align-items-center">
+        <h2 class="modal-title fs-5" id="exampleModalLabel">{{ticker}}</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form ng-app="myApp" ng-controller="validateCtrl" name="myForm">
+          <div class="row mb-3">
+            <h4>Current Price: {{polygonAggsVw}}</h4>
+            <h4>Money in Wallet: {{walletmoney}}</h4>
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Quantity: </label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" #quantity
+                name="quuantity" ng-model="quuantity" required (input)="calculateBuyQuantity(quantity.value)" min="0"
+                oninput="if(value<0)value=0;">
+            </div>
+            <h4 *ngIf="buytotal > walletmoney" style="color: red;">
+              Not Enough Money in Wallet!
+            </h4>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <h4 class="align-baseline">Total: {{this.buytotal}} </h4>
+        <button type="button" class="btn btn-success btn"
+          [disabled]="buytotal > walletmoney || buytotal <= 0 ? 'disabled': null" (click)="buy(quantity.value);"
+          data-bs-dismiss="modal" aria-label="Close">Buy</button>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<!-- Sell Stock Modal -->
+<div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="esellModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header align-items-center">
+        <h2 class="modal-title fs-5" id="sellModalLabel">{{ticker}}</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form ng-app="sell" ng-controller="validateCtrl" name="sell">
+          <div class="row mb-3">
+            <h4>Current Price: {{polygonAggsVw}}</h4>
+            <h4>Money in Wallet: {{walletmoney}}</h4>
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Quantity: </label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" (input)="calculateSellQuantity(quantitysell.value)" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" #quantitysell 
+                name="quantitysell" ng-model="quantitysell" oninput="if(value<0)value=0;" required  min="0" [value]="boughtQuantity">
+            </div>
+            <h4 *ngIf="sellButtonDisabled === true && quantitysell.value != ''" style="color: red;">
+              You cannot sell the socks that you don't have!
+            </h4>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <h4 class="align-baseline">Total: {{sellTotal}} </h4>
+        <button type="button" class="btn btn-success btn" (click)="sell(quantitysell.value);" data-bs-dismiss="modal" aria-label="Close"  
+          [disabled]="sellButtonDisabled === true ? 'disabled': null" >Sell</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Top News tab -->
+<div class="container text-center" *ngIf="topNews.length > 0 && tabs=='Top News'">
+  <div class="row mt-2">
+    <div class="col-12 col-md-6 news-card-container" *ngFor="let news of topNews; let n=index">
+      <div class="card news-card">
+        <div class="news-image-container">
+          <img *ngIf="news.image" src="{{news.image}}" alt="News image" class="news-image">
+        </div>
+        <div class="news-content">
+          <h5 class="card-title">
+            <a href="javascript:void(0);" (click)="newsDetail(n)" data-bs-toggle="modal" data-bs-target="#newsModal" class="stretched-link" style="text-decoration: none; color: inherit;">
+              {{news.headline}}
+            </a>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- News Detail Modal -->
+<div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex flex-column align-items-start">
+          <h2 class="modal-title fs-5" id="exampleModalLabel">{{topNewsDetail?.source}}</h2>
+          <p><small>{{topNewsDetail?.datetime * 1000 | date:'longDate'}}</small></p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>      
+      <div class="modal-body">
+        <div class="container">
+          <h2>{{topNewsDetail?.headline}}</h2>
+          <p>{{topNewsDetail?.summary}}</p>
+          <p><small>For more details click <a href="{{topNewsDetail?.url}}" target="_blank">here</a></small></p>
+          <div class="card">
+            <div class="card-body">
+              <p>Share</p>
+              <div style="display: flex; align-items: center; justify-content: start;">
+                <a class="twitter-share-button"
+                   href="https://twitter.com/intent/tweet?text={{topNewsDetail?.headlineencode}} {{topNewsDetail?.urlencode}}"
+                   target="_blank" style="margin-right: 10px;">
+                  <i class="fa fa-twitter"></i>
+                </a>
+                <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout=""
+                     data-size="">
+                  <a target="_blank"
+                     href="https://www.facebook.com/sharer/sharer.php?u={{topNewsDetail?.urlencode}}&src=sdkpreparse"
+                     class="fb-xfbml-parse-ignore">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </div>
+              </div>              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts tab -->
+<div class="chart-container chart-container-custom d-flex justify-content-center" *ngIf="chartsData?.length > 0 && tabs=='Charts'">
+  <div class="row w-100 justify-content-center">
+    <div class="col-lg-10 col-md-8 col-sm-6" *ngIf="(chartoption | json) != '{}'">
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartoption" [constructorType]="chartConstructor"
+        style="display: block; height: 100%; min-height: 600px;"></highcharts-chart>
+    </div>
+  </div>
+</div>
+
+<!-- Insights tab -->
+<div class="detail-container" *ngIf="insightsData?.length > 0 && tabs=='Insights'">
+  <div class="container">
+    <br />
+    <div class="row justify-content-lg-center">
+      <div class="col-xl-auto text-center">
+        <h3><strong>Insider Sentiments</strong></h3>
+      </div>
+    </div>
+    <div class="row justify-content-xl-center">
+      <div class="col-lg-8">
+        <table class="table wd-100 text-center">
+          <thead>
+            <tr>
+              <th scope="col">{{hostList['name']}}</th>
+              <th scope="col">MSPR</th>
+              <th scope="col">Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Total</th>
+              <td>{{msprTotal}}</td>
+              <td>{{changeTotal}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Positive</th>
+              <td>{{msprPositive}}</td>
+              <td>{{changePositive}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Negative</th>
+              <td>{{msprNagtive}}</td>
+              <td>{{changeNagtive}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg p-2" style="max-width: 450px;">
+        <div *ngIf="(insightsoption | json) != '{}'">
+          <highcharts-chart [Highcharts]="Highcharts" [options]="insightsoption"
+            style="width: 100%; height: 300px; display: block;"></highcharts-chart>
+        </div>
+      </div>
+      <div class="col-12 col-lg p-2" style="max-width: 450px;">
+        <div *ngIf="(insightsoption | json) != '{}'">
+          <highcharts-chart [Highcharts]="Highcharts" [options]="earningOption"
+            style="width: 100%; height: 300px; display: block;"></highcharts-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
